@@ -1,28 +1,21 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
+var MongoClient = require('mongodb').MongoClient;
 
 mongoose.connect("mongodb+srv://Eddo:1Landrover@codingcluster.rr02d.mongodb.net/codingsupport?retryWrites=true&w=majority",
 { useNewUrlParser: true,
-  useUnifiedTopology: true}, () =>
-  console.log("Connected to DataBase")
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true }, () =>
+  console.log("connected to DataBase")
 );
 
 // <---------------------------------------------------------------------------- LOGIN / SIGNUP MODEL
 var userSchema = mongoose.Schema({
-    userName: {
-      type: String,
-      required: true,
-    },
-    userEmail: {
-      type: String,
-      required: true,
-    },
-    userPassword: {
-      type: String,
-      required: true,
-      minlength: 5
-    },
+    userName: String,
+    userEmail: String,
+    userPassword: String,
 });
 var NewUserModel = mongoose.model('newUsers', userSchema);
 var isLoggedIn = false;
