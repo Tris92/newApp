@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 mongoose.connect("mongodb+srv://Eddo:1Landrover@codingcluster.rr02d.mongodb.net/codingsupport?retryWrites=true&w=majority",
 { useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false,
+  useFindAndModify: true,
   useCreateIndex: true }, () =>
   console.log("connected to DataBase")
 );
@@ -28,11 +28,17 @@ router.get('/', function(req, res, next) {
   )
 });
 
+
+router.get('/auth', function(req, res, next) {
+  NewUserModel.find(
+    function(error, newUsers) {
+      res.render('auth', {newUsers, isLoggedIn});
+    }
+  )
+});
+
 router.post('/signup', function(req, res, next) {
   const {userName, userEmail, userPassword} = req.body;
-  function Error() {
-     this.name = "Error";
-  }
   try {
     const userExist = NewUserModel.findOne({userEmail});
     if(userExist === true) {
@@ -46,13 +52,13 @@ router.post('/signup', function(req, res, next) {
       });
       newUser.save(
         function(err, newUsers) {
-          console.log({newUsers});
+          console.log(newUsers);
           res.render('index', {newUsers, isLoggedIn});
         }
       )
     }
   } catch(error) {
-    res.render('index', {newUsers});
+    res.render('auth', {newUsers});
     console.log('Erreur ajout user')
   }
 });

@@ -48,17 +48,11 @@
             <a class="nav-link" href="/">FAQ</a>
           </li>
 
-          <%
-          if(isLoggedIn == false) {
-          %>
           <li class="nav-item d-flex">
-            <a class="nav-link" href="/auth" >Login / </a>
+            <!-- <a class="nav-link" href="/auth">Login / </a> -->
             <a class="nav-link" href="/auth">Sign Up</a>
           </li>
-          <%
-            } else {
-          %>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <a class="nav-link">
                 <img class="userLogin" src="./images/header/login.png">
@@ -69,10 +63,7 @@
               <button class="dropdown-item" type="button">Mes questions</button>
               <button class="dropdown-item" type="button"><a href="/logout">Déconnexion</a></button>
             </div>
-          </li>
-          <%
-            }
-          %>
+          </li> -->
 
 
 
@@ -82,76 +73,7 @@
 
     <br><br><br><br>
 
-  <!-- PRESENTATION CODING HELP -->
-    <div class="content">
-      <div id="particles-js">
-        <h1 class="homepage-title title_animate">
-          Coding Help
-        </h1>
-      </div>
-    </div>
 
-    <br><br>
-
-    <div class="row row-cols-3 row-cols-sm-2 row-cols-md-3" id="homepage_cards">
-      <div class="col mb-4">
-        <div class="card card-homepage">
-          <img src="./images/homepage/abtest.jpg" class="card-img-top" alt="picture abtest">
-          <div class="card-img-overlay">
-            <h5 class="card-title">A/B Test</h5>
-          </div>
-          <div class="card-body">
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col mb-4">
-        <div class="card card-homepage">
-          <img src="./images/homepage/analytics.jpg" class="card-img-top" alt="picture analytics">
-          <div class="card-img-overlay">
-            <h5 class="card-title">Analytics</h5>
-          </div>
-          <div class="card-body">
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col mb-4">
-        <div class="card card-homepage">
-          <img src="./images/homepage/tricks.jpg" class="card-img-top" alt="picture tricks">
-          <div class="card-img-overlay">
-            <h5 class="card-title">Coding Tricks</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col mb-4">
-        <div class="card card-homepage">
-          <img src="./images/homepage/support.png" class="card-img-top" alt="picture support">
-          <div class="card-img-overlay">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
-
-  <!-- <div class="modal" id="signUpModal" tabindex="1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1> Sign Up</h1>
-          <button type="button" class="close" data-dismiss="modal" aria-label="close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
             <form action="/signup" method="POST" class="form-admin" encType="multipart/form-data">
 
               <div class="form-group row">
@@ -178,25 +100,8 @@
               <br>
               <button type="submit" class="btn-admin mb-2 btn-light">Register</button>
             </form>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
 
 
-  <div class="modal" id="loginModal" tabindex="1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1> Log In</h1>
-          <button type="button" class="close" data-dismiss="modal" aria-label="close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
             <form action="/login" method="POST" class="form-admin" encType="multipart/form-data">
 
               <div class="form-group row">
@@ -216,12 +121,6 @@
               <br>
               <button type="submit" class="btn-admin mb-2 btn-light">Se connecter</button>
             </form>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div> -->
 
 
 </div> <!-- END CONTAINER  -->
@@ -231,13 +130,6 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
-  <script type="text/javascript" src="./javascripts/homepage/animated-title.js"></script>
-
-  <script type="text/javascript" src="./javascripts/particles/particles.js"></script>
-  <script type="text/javascript" src="./javascripts/particles/particles.min.js"></script>
-  <script type="text/javascript" src="./javascripts/particles/homepage-particles.js"></script>
 
   </body>
 </html>
