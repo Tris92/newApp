@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const { check, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+const router = express.Router();
 const mongoose = require('mongoose');
-var MongoClient = require('mongodb').MongoClient;
 
 mongoose.connect("mongodb+srv://Eddo:1Landrover@codingcluster.rr02d.mongodb.net/codingsupport?retryWrites=true&w=majority",
 { useNewUrlParser: true,
@@ -13,9 +14,9 @@ mongoose.connect("mongodb+srv://Eddo:1Landrover@codingcluster.rr02d.mongodb.net/
 
 // <---------------------------------------------------------------------------- LOGIN / SIGNUP MODEL
 var userSchema = mongoose.Schema({
-    userName: String,
-    userEmail: String,
-    userPassword: String,
+  userName: String,
+  userEmail: String,
+  userPassword: String,
 });
 var NewUserModel = mongoose.model('newUsers', userSchema);
 var isLoggedIn = false;
@@ -24,6 +25,7 @@ var isLoggedIn = false;
 router.get('/', function(req, res, next) {
   NewUserModel.find(
     function(error, newUsers) {
+      req.session.user = newUsers[0]
       res.render('index', {newUsers, isLoggedIn});
     }
   )
@@ -33,62 +35,72 @@ router.get('/', function(req, res, next) {
 router.get('/auth', function(req, res, next) {
   NewUserModel.find(
     function(error, newUsers) {
-      res.render('auth', {newUsers, isLoggedIn});
+      res.render('auth', {user : req.session.user, newUsers, isLoggedIn, message:""});
     }
   )
 });
 
-router.post('/signup', function(req, res, next) {
+router.post('/signup', async (req, res) => {
+  console.log(req.body)
   const {userName, userEmail, userPassword} = req.body;
   try {
-    const userExist = NewUserModel.findOne({userEmail});
+    const userExist = await NewUserModel.findOne({userEmail});
     if(userExist) {
+      console.log(userExist);
       throw new Error("Cet email est déjà enregistré")
     }
-    var newUser = new NewUserModel({
+    const newUser = new NewUserModel({
       userName,
       userEmail,
       userPassword,
     });
-    newUser.save(
-      function(err, newUsers) {
-        console.log(newUsers);
-        res.render('index', {newUsers, isLoggedIn});
-      }
-    )
-  } catch(error) {
-    res.render('auth');
-    console.log('Erreur ajout user')
+    const user = await newUser.save();
+    const newUsers = await NewUserModel.find();
+      req.session.user = user;
+      console.log("User added !");
+      res.render('index', {user, newUsers, isLoggedIn: true});
+  } catch(err) {
+    console.log(err)
+    res.render('auth', { message: err.message, isLoggedIn: false });
   }
 });
 
 
-router.post('/login', function(req, res, next) {
+router.post('/login', async (req, res) => {
   const {userEmail, userPassword} = req.body;
-  {userEmail, userPassword}
-  NewUserModel.find(
-    { userEmail },
-    function (err, newUsers) {
-      if(newUsers.length > 0) {
-        req.session.user = newUsers[0];
-        isLoggedIn = true;
-          res.render('index', {user : req.session.user, isLoggedIn});
-        } else {
-          isLoggedIn = false;
-          res.render('/auth')
-        }
-    })
+  try {
+    const validPassword = await NewUserModel.findOne({userPassword});
+    if(!validPassword) {
+      console.log(validPassword);
+      throw new Error("Le mot de passe est incorrect")
+    }
+    const newUsers = await NewUserModel.find();
+    if(newUsers.length > 0) {
+      const user = newUsers[0];
+      req.session.user = user;
+      res.render('index', {user, newUsers, isLoggedIn: true});
+    }
+  } catch(err) {
+    console.log(err)
+    res.render('auth', { message: err.message, isLoggedIn: false });
+  }
 });
 
 
 router.get('/logout', function(req, res, next){
   NewUserModel.find(
-    function(err, newUsers){
-      res.render('index', { newUser: req.session.newUser, isLoggedIn, newUsers});
-      isLoggedIn = false;
+    function(error, newUsers) {
+      res.render('index', { isLoggedIn: false, newUsers});
     }
   )
 });
+
+
+router.get('/homepage', function(req, res, next) {
+  res.render('homepage');
+});
+
+
 
 
 module.exports = router;
